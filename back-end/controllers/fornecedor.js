@@ -1,0 +1,1 @@
+const Fornecedor = require('../models/Fornecedor')
