@@ -3,7 +3,11 @@ const mongoose = require('mongoose')
 // Parâmetro uri = Universal Resource Indicator (indica onde está o MongoDB
 // a que iremos nos conectar)
 module.exports = function(uri) {
-   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+   mongoose.connect(uri, { 
+      useNewUrlParser: true, 
+      useUnifiedTopology: true,
+      useFindAndModify: false 
+   })
 
    mongoose.connection.on('connected', () => 
       console.log(`Mongoose! conectado a ${uri}`)
