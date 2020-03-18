@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const db = require('./config/database')
-db('mongodb://localhost:27017/4not2020')
+db('mongodb://localhost:27017/4mat2020')
 
 app.use(logger('dev'));
 app.use(express.json());
