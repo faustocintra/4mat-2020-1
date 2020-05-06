@@ -24,7 +24,9 @@ const esquema = mongoose.Schema({
    },
    unidade_medida: {
       type: String, // unidade, peça, kg, litro, m²...
-      required: true
+      required: true,
+      enum: ['m', 'l', 'un', 'kg', 'g'],
+      default: 'un'
    },
    categoria: {
       type: String,
