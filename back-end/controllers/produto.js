@@ -111,4 +111,10 @@ async function busca(req, res) {
    }
 }
 
+controller.movimentarEstoque = function (produto_id, quantidade) {
+   // 1) Busca do produto pelo Id (obterUm)
+   // 2) Alteração na quantidade (quantidadeProd - quantVendida)
+   // 3) Salva o produto
+}
+
 module.exports = controller

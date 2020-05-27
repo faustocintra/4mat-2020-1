@@ -1,4 +1,5 @@
 const ItemVenda = require('../models/ItemVenda')
+// require() no controller do produto
 
 const controller = {} // Objeto vazio
 
@@ -7,6 +8,8 @@ controller.novo = async (req, res) => {
       await ItemVenda.create(req.body)
       // HTTP status 201: Created (criado)
       res.status(201).end()
+
+      // chamar o método movimentarEstoque() do controller do produto
    }
    catch(erro) {
       // HTTP status 500: Internal Server Error
