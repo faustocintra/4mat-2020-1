@@ -1,4 +1,15 @@
 mat-toolbar {
    position: fixed;
    bottom: 0;
+   padding: 8px;
+   height: 36px;
+   
+   p {
+      font-size: 70%;
+      text-align: center;
+      display: block;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+   }
 }
