@@ -17,4 +17,8 @@ export class FornecedorService {
     return this.http.get('http://localhost:3000/fornecedor').toPromise()  
   }
 
+  excluir(id: string) {
+    return this.http.request('DELETE', 'http://localhost:3000/fornecedor', {body: {_id: id}}).toPromise()
+  }
+
 }
