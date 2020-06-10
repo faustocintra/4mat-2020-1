@@ -12,3 +12,37 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-table {
    width: 100%;
 }
+
+// Esconder os botões de exclusão das tabelas de listagem
+// de dados até que o mouse paire sobre a linha da tabela
+.mat-row {
+
+   button {
+      visibility: hidden;
+   }
+
+   &:hover {
+
+      filter: brightness(110%);
+
+      button {
+         visibility: visible;
+      }
+   }
+}
+
+/* Regra acima em CSS puro
+
+.mat-row button {
+   visibility: hidden;
+}
+
+.mat-row:hover {
+   filter: brightness(110%);
+}
+
+.mat-row:hover button {
+   visibility: visible; 
+}
+
+*/
