@@ -1,42 +1,59 @@
 <h1>Listagem de fornecedores</h1>
 
+<div class="new-item-button-container">
+  <a mat-raised-button color="accent" class="new-item-button" [routerLink]="['/fornecedor/novo']">
+    <mat-icon>add_box</mat-icon>
+    Cadastrar novo fornecedor
+  </a>
+</div>
+
 <table mat-table [dataSource]="fornecedores" class="mat-elevation-z4">
 
-   <!-- nome_fantasia Column -->
-   <ng-container matColumnDef="nome_fantasia">
-     <th mat-header-cell *matHeaderCellDef> Nome fantasia </th>
-     <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.nome_fantasia}} </td>
-   </ng-container>
- 
-   <!-- razao_social Column -->
-   <ng-container matColumnDef="razao_social">
-     <th mat-header-cell *matHeaderCellDef> Razão social </th>
-     <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.razao_social}} </td>
-   </ng-container>
- 
-   <!-- email Column -->
-   <ng-container matColumnDef="email">
-     <th mat-header-cell *matHeaderCellDef> E-mail </th>
-     <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.email}} </td>
-   </ng-container>
- 
-   <!-- telefone Column -->
-   <ng-container matColumnDef="telefone">
-     <th mat-header-cell *matHeaderCellDef> Telefone </th>
-     <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.telefone}} </td>
-   </ng-container>
+  <!-- nome_fantasia Column -->
+  <ng-container matColumnDef="nome_fantasia">
+    <th mat-header-cell *matHeaderCellDef> Nome fantasia </th>
+    <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.nome_fantasia}} </td>
+  </ng-container>
 
-   <!-- excluir Column -->
-   <ng-container matColumnDef="excluir">
-      <th mat-header-cell *matHeaderCellDef> Excluir </th>
-      <td mat-cell *matCellDef="let fornecedor"> 
-         <button mat-raised-button color="warn" title="Excluir" 
-            (click)="excluirItem(fornecedor._id)">
-            <mat-icon>delete_forever</mat-icon>
-         </button> 
-      </td>
-    </ng-container>
- 
-   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
- </table>
+  <!-- razao_social Column -->
+  <ng-container matColumnDef="razao_social">
+    <th mat-header-cell *matHeaderCellDef> Razão social </th>
+    <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.razao_social}} </td>
+  </ng-container>
+
+  <!-- email Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> E-mail </th>
+    <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.email}} </td>
+  </ng-container>
+
+  <!-- telefone Column -->
+  <ng-container matColumnDef="telefone">
+    <th mat-header-cell *matHeaderCellDef> Telefone </th>
+    <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.telefone}} </td>
+  </ng-container>
+
+  <!-- editar Column -->
+  <ng-container matColumnDef="editar">
+    <th mat-header-cell *matHeaderCellDef> Editar </th>
+    <td mat-cell *matCellDef="let fornecedor">
+      <a mat-raised-button color="accent" title="Editar"
+        [routerLink]="['/fornecedor', fornecedor._id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </td>
+  </ng-container>
+  
+  <!-- excluir Column -->
+  <ng-container matColumnDef="excluir">
+    <th mat-header-cell *matHeaderCellDef> Excluir </th>
+    <td mat-cell *matCellDef="let fornecedor">
+      <button mat-raised-button color="warn" title="Excluir" (click)="excluirItem(fornecedor._id)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

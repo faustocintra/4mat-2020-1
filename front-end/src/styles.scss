@@ -17,7 +17,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // de dados até que o mouse paire sobre a linha da tabela
 .mat-row {
 
-   button {
+   .mat-raised-button {
       visibility: hidden;
    }
 
@@ -25,7 +25,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
       filter: brightness(110%);
 
-      button {
+      .mat-raised-button {
          visibility: visible;
       }
    }
@@ -33,7 +33,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Regra acima em CSS puro
 
-.mat-row button {
+.mat-row .mat-raised-button {
    visibility: hidden;
 }
 
@@ -41,8 +41,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
    filter: brightness(110%);
 }
 
-.mat-row:hover button {
+.mat-row:hover .mat-raised-button {
    visibility: visible; 
 }
 
 */
+
+.new-item-button {
+   font-size: 150%;
+}
+
+.new-item-button-container {
+   text-align: right;
+   margin-bottom: 20px;
+}
+
+.std-form {
+   
+   max-width: 80%;
+   margin: 0 auto;
+   
+   mat-form-field {
+      min-width: 150px;
+      max-width: 500px;
+      width: 100%;
+      margin-right: 30px;
+   }
+   
+}
+

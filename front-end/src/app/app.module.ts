@@ -14,6 +14,9 @@ import { MainMenuComponent } from './ui/main-menu/main-menu.component';
 import { MainFooterComponent } from './ui/main-footer/main-footer.component';
 import { FornecedorListComponent } from './fornecedor/fornecedor-list/fornecedor-list.component';
 import { ConfirmDlgComponent } from './ui/confirm-dlg/confirm-dlg.component';
+import { FornecedorFormComponent } from './fornecedor/fornecedor-form/fornecedor-form.component';
+import { FormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -22,13 +25,16 @@ import { ConfirmDlgComponent } from './ui/confirm-dlg/confirm-dlg.component';
     MainMenuComponent,
     MainFooterComponent,
     FornecedorListComponent,
-    ConfirmDlgComponent
+    ConfirmDlgComponent,
+    FornecedorFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
+    NgxMaskModule.forRoot(),
     // Linha abaixo acrescentada cf. blog
     MaterialModule
   ],

@@ -14,7 +14,7 @@ export class FornecedorListComponent implements OnInit {
   fornecedores : any = []  // Vetor vazio
 
   // Quais colunas serão exibidas na tabela e qual a ordem de exibição
-  displayedColumns: any = ['razao_social', 'nome_fantasia', 'email', 'telefone', 'excluir']
+  displayedColumns: any = ['razao_social', 'nome_fantasia', 'email', 'telefone', 'editar', 'excluir']
   
   constructor(
     private fornecedorSrv: FornecedorService,
