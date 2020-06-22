@@ -1,0 +1,59 @@
+<h1>{{ title }}</h1>
+
+<form class="std-form" #f="ngForm" (ngSubmit)="salvar(f)">
+   
+   <mat-form-field>
+      <mat-label>Nº venda</mat-label>
+      <input name="num_venda" matInput [(ngModel)]="venda.num_venda" readonly>
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-select name="cliente" required placeholder="Selecione o cliente" 
+         [(ngModel)]="venda.cliente">
+         <mat-option *ngFor="let cliente of clientes" [value]="cliente._id">
+            {{cliente.nome}}
+         </mat-option>
+      </mat-select>
+   </mat-form-field>   
+
+   <!--mat-form-field>
+      <mat-label>Data de venda</mat-label>
+      <input name="data_venda" matInput [matDatepicker]="data_venda" 
+         [(ngModel)]="venda.data_venda" required>
+      <mat-datepicker-toggle matSuffix [for]="data_venda"></mat-datepicker-toggle>
+      <mat-datepicker #data_venda></mat-datepicker>
+    </mat-form-field-->
+
+   <mat-form-field>
+      <mat-label>CNPJ</mat-label>
+      <input name="cnpj" matInput [(ngModel)]="venda.cnpj" required placeholder="Informe o CNPJ" mask="00.000.000/0000-00">
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>Endereço</mat-label>
+      <textarea name="endereco" matInput [(ngModel)]="venda.endereco" required placeholder="Informe o endereço da empresa" rows="4"></textarea>
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>Telefone</mat-label>
+      <input name="telefone" matInput [(ngModel)]="venda.telefone" required placeholder="Informe o telefone da empresa">
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>E-mail</mat-label>
+      <mat-icon matPrefix>contact_mail</mat-icon>
+      <input type="email" name="email" matInput [(ngModel)]="venda.email" required placeholder="Informe o email">
+   </mat-form-field>
+
+   <mat-toolbar class="form-buttons">
+      <mat-toolbar-row>
+         <button mat-raised-button type="submit" color="accent">
+            Salvar
+         </button>
+         <button mat-raised-button type="button" (click)="voltar(f)">
+            Voltar
+         </button>
+      </mat-toolbar-row>
+   </mat-toolbar>
+
+</form>
