@@ -1,5 +1,5 @@
 import { ClienteService } from './../../cliente/cliente.service';
-import { VendaService } from './../venda.service';
+import { ItemVendaService } from './../item-venda.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,41 +8,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDlgComponent } from 'src/app/ui/confirm-dlg/confirm-dlg.component';
 
 @Component({
-  selector: 'app-venda-form',
-  templateUrl: './venda-form.component.html',
-  styleUrls: ['./venda-form.component.scss']
+  selector: 'app-item-venda-form',
+  templateUrl: './item-venda-form.component.html',
+  styleUrls: ['./item-venda-form.component.scss']
 })
-export class VendaFormComponent implements OnInit {
+export class ItemVendaFormComponent implements OnInit {
 
-  title : string = 'Nova venda'
+  title: string = 'Novo item de venda'
 
-  venda : any = {} // Objeto vazio
+  itemVenda: any = {} // Objeto vazio
 
   // Entidades relacionadas
-  clientes : any = [] // Vetor vazio
-
-  formasPagamento : any = [
-    {
-      codigo: 'DI',
-      nome: 'DI - Dinheiro'
-    },
-    {
-      codigo: 'CH',
-      nome: 'CH - Cheque'
-    },
-    {
-      codigo: 'CC',
-      nome: 'CC - Cartão de crédito'
-    },
-    {
-      codigo: 'CD',
-      nome: 'CD - Cartão de débito'
-    }
-  ]
+  clientes: any = [] // Vetor vazio
 
   constructor(
     private snackBar: MatSnackBar,
-    private vendaSrv: VendaService,
+    private itemVendaSrv: ItemVendaService,
     private clienteSrv: ClienteService,
     private router: Router,
     private actRoute: ActivatedRoute,
@@ -53,17 +34,18 @@ export class VendaFormComponent implements OnInit {
     // Capturando os eventuais parâmetros da rota pela qual
     // chegamos ao formulário
     let params = this.actRoute.snapshot.params;
-    
+
     // Se existir um parâmetro chamado :id
-    if(params['id']) {
+    if (params['id']) {
       // É caso de atualização. Precisamos chamar o método obterUm() do
       // service para buscar o registro no back-end e preencher a variável
-      // this.venda com esses dados
+      // this.item-venda com esses dados
       try {
-        this.venda = await this.vendaSrv.obterUm(params['id'])
+        this.itemVenda = await this.itemVendaSrv.obterUm(params['id'])
+        this.title = 'Alterando item de venda'
       }
-      catch(erro) {
-        this.snackBar.open(erro.message, 'Que pena!', {duration: 5000})
+      catch (erro) {
+        this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
       }
     }
 
@@ -71,8 +53,8 @@ export class VendaFormComponent implements OnInit {
     try {
       this.clientes = await this.clienteSrv.listar()
     }
-    catch(erro) {
-      this.snackBar.open(erro.message, 'Que pena!', {duration: 5000})
+    catch (erro) {
+      this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
     }
 
   }
@@ -80,34 +62,34 @@ export class VendaFormComponent implements OnInit {
   async salvar(form: NgForm) {
     // Qualquer tentativa de salvamento somente será feita se o formulário
     // for válido
-    if(form.valid) {
+    if (form.valid) {
       try {
-        let msg = 'Venda criada com sucesso.'
+        let msg = 'Item de venda criado com sucesso.'
         // Atualização: já existe o atributo _id
-        if(this.venda._id) {
-          await this.vendaSrv.atualizar(this.venda)
-          msg = 'Venda atualizada com sucesso.'
+        if (this.itemVenda._id) {
+          await this.itemVendaSrv.atualizar(this.itemVenda)
+          msg = 'Item de venda atualizado com sucesso.'
         }
-        else { // Novo venda (ainda não existe o campo _id)
-          await this.vendaSrv.novo(this.venda)
+        else { // Novo item-venda (ainda não existe o campo _id)
+          await this.itemVendaSrv.novo(this.itemVenda)
         }
-        this.snackBar.open(msg, 'Entendi', {duration: 5000})
+        this.snackBar.open(msg, 'Entendi', { duration: 5000 })
         // Retornar à página de listagem
-        this.router.navigate(['/venda'])
+        this.router.navigate(['/item-venda'])
       }
-      catch(erro) {
-        this.snackBar.open(erro.message, 'Que pena!', {duration: 5000})
+      catch (erro) {
+        this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
       }
     }
   }
 
   async voltar(form: NgForm) {
-    
+
     let result = true;
     console.log(form);
     // form.dirty = formulário "sujo", não salvo (via código)
     // form.touched = o conteúdo de algum campo foi alterado (via usuário)
-    if(form.dirty && form.touched) {
+    if (form.dirty && form.touched) {
       let dialogRef = this.dialog.open(ConfirmDlgComponent, {
         width: '50%',
         data: { question: 'Há dados não salvos. Deseja realmente voltar?' }
@@ -117,8 +99,8 @@ export class VendaFormComponent implements OnInit {
 
     }
 
-    if(result) {
-      this.router.navigate(['/venda']); // Retorna à listagem
+    if (result) {
+      this.router.navigate(['/item-venda']); // Retorna à listagem
     }
 
   }

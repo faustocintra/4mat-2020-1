@@ -20,6 +20,23 @@ import { NgxMaskModule } from 'ngx-mask';
 import { VendaListComponent } from './venda/venda-list/venda-list.component';
 import { VendaFormComponent } from './venda/venda-form/venda-form.component';
 
+// Habilitar formatação de moeda e data em português
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt);
+
+/**** Datas em português no MatDatepicker  ****/
+
+// É preciso instalar os seguintes pacotes:
+// yarn add @angular/material-moment-adapter moment
+
+import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { ItemVendaListComponent } from './item-venda/item-venda-list/item-venda-list.component';
+import { ItemVendaFormComponent } from './item-venda/item-venda-form/item-venda-form.component';
+
+/**********************************************/
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +47,9 @@ import { VendaFormComponent } from './venda/venda-form/venda-form.component';
     ConfirmDlgComponent,
     FornecedorFormComponent,
     VendaListComponent,
-    VendaFormComponent
+    VendaFormComponent,
+    ItemVendaListComponent,
+    ItemVendaFormComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +59,17 @@ import { VendaFormComponent } from './venda/venda-form/venda-form.component';
     FormsModule,
     NgxMaskModule.forRoot(),
     // Linha abaixo acrescentada cf. blog
-    MaterialModule
+    MaterialModule,
+    /**** Datas em português no MatDatepicker  ****/
+    MatMomentDateModule
+    /**********************************************/  
   ],
-  providers: [],
+  providers: [
+    /**** Datas em português no MatDatepicker  ****/
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+    /**********************************************/    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

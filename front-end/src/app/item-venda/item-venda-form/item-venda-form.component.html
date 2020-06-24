@@ -3,12 +3,12 @@
 <form class="std-form" #f="ngForm" (ngSubmit)="salvar(f)">
 
    <mat-form-field>
-      <mat-label>Nº venda</mat-label>
-      <input name="num_venda" matInput [(ngModel)]="venda.num_venda" readonly>
+      <mat-label>Nº itemVenda</mat-label>
+      <input name="num_venda" matInput [(ngModel)]="itemVenda.num_venda" readonly>
    </mat-form-field>
 
    <mat-form-field>
-      <mat-select name="cliente" required placeholder="Selecione o cliente" [(ngModel)]="venda.cliente">
+      <mat-select name="cliente" required placeholder="Selecione o cliente" [(ngModel)]="itemVenda.cliente">
          <mat-option *ngFor="let cliente of clientes" [value]="cliente._id">
             {{cliente.nome}}
          </mat-option>
@@ -16,15 +16,15 @@
    </mat-form-field>
 
    <mat-form-field>
-      <mat-label>Data de venda</mat-label>
-      <input name="data_venda" matInput [matDatepicker]="data_venda" [(ngModel)]="venda.data_venda" required>
+      <mat-label>Data de itemVenda</mat-label>
+      <input name="data_venda" matInput [matDatepicker]="data_venda" [(ngModel)]="itemVenda.data_venda" required>
       <mat-datepicker-toggle matSuffix [for]="data_venda"></mat-datepicker-toggle>
       <mat-datepicker #data_venda></mat-datepicker>
    </mat-form-field>
 
    <mat-form-field>
       <mat-select name="forma_pagamento" required placeholder="Selecione a forma de pagamento"
-         [(ngModel)]="venda.forma_pagamento">
+         [(ngModel)]="itemVenda.forma_pagamento">
          <mat-option *ngFor="let fp of formasPagamento" [value]="fp.codigo">
             {{fp.nome}}
          </mat-option>
@@ -33,7 +33,7 @@
 
    <mat-form-field>
       <mat-label>Data de pagamento</mat-label>
-      <input name="data_pagamento" matInput [matDatepicker]="data_pagamento" [(ngModel)]="venda.data_pagamento">
+      <input name="data_pagamento" matInput [matDatepicker]="data_pagamento" [(ngModel)]="itemVenda.data_pagamento">
       <mat-datepicker-toggle matSuffix [for]="data_pagamento"></mat-datepicker-toggle>
       <mat-datepicker #data_pagamento></mat-datepicker>
    </mat-form-field>

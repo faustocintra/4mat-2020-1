@@ -1,0 +1,95 @@
+<h1>Listagem de itens de venda</h1>
+
+<div class="new-item-button-container">
+   <a mat-raised-button color="accent" class="new-item-button" [routerLink]="['/item-venda/novo']">
+      <mat-icon>add_box</mat-icon>
+      Cadastrar novo item de venda
+   </a>
+</div>
+
+<table mat-table [dataSource]="itensVenda" class="mat-elevation-z4">
+
+   <!-- venda Column -->
+   <ng-container matColumnDef="venda">
+      <th mat-header-cell *matHeaderCellDef> Nº venda </th>
+      <td mat-cell *matCellDef="let item_venda"> {{item_venda.venda?.num_venda}} </td>
+   </ng-container>
+
+   <!-- produto Column -->
+   <ng-container matColumnDef="produto">
+      <th mat-header-cell *matHeaderCellDef> Produto </th>
+      <td mat-cell *matCellDef="let item_venda"> {{item_venda.produto?.descricao}} </td>
+   </ng-container>
+
+   <!-- quantidade Column -->
+   <ng-container matColumnDef="quantidade">
+      <th mat-header-cell *matHeaderCellDef> Qtde. </th>
+      <td mat-cell *matCellDef="let item_venda"> {{item_venda.quantidade }} </td>
+   </ng-container>
+
+   <!-- preco_unitario Column -->
+   <ng-container matColumnDef="preco_unitario">
+      <th mat-header-cell *matHeaderCellDef> Preço unitário </th>
+      <td mat-cell *matCellDef="let item_venda"> 
+         <!--
+            Formatação de moeda:
+            'BRL': Brazilian real (real brasileiro)
+            '1.2-2': mínimo de 1 dígito na parte inteira, mínimo de 2 dígitos
+               na parte decimal e máximo de 2 dígitos na parte decimal
+            'pt-BR': formataçã em português do Brasil
+         -->
+         {{item_venda.produto?.preco_venda | 
+            currency:'BRL':'symbol':'1.2-2':'pt-BR' }} </td>
+   </ng-container>
+
+   <!-- desconto Column -->
+   <ng-container matColumnDef="desconto">
+      <th mat-header-cell *matHeaderCellDef> Desconto </th>
+      <td mat-cell *matCellDef="let item_venda"> 
+         {{item_venda.desconto | currency:'BRL':'symbol':'1.2-2':'pt-BR'}} 
+      </td>
+   </ng-container>
+
+   <!-- acrescimo Column -->
+   <ng-container matColumnDef="acrescimo">
+      <th mat-header-cell *matHeaderCellDef> Acréscimo </th>
+      <td mat-cell *matCellDef="let item_venda"> 
+         {{item_venda.acrescimo | currency:'BRL':'symbol':'1.2-2':'pt-BR'}} 
+      </td>
+   </ng-container>
+
+   <!-- preco_total Column -->
+   <!-- COLUNA CALCULADA -->
+   <ng-container matColumnDef="preco_total">
+      <th mat-header-cell *matHeaderCellDef> Preço total </th>
+      <td mat-cell *matCellDef="let item_venda"> 
+         {{ (item_venda.quantidade * item_venda.produto?.preco_venda) - 
+            item_venda.desconto + item_venda.acrescimo 
+            | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+         }} 
+      </td>
+   </ng-container>
+
+   <!-- editar Column -->
+   <ng-container matColumnDef="editar">
+      <th mat-header-cell *matHeaderCellDef> Editar </th>
+      <td mat-cell *matCellDef="let item_venda">
+         <a mat-raised-button color="accent" title="Editar" [routerLink]="['/item_venda', item_venda._id]">
+            <mat-icon>edit</mat-icon>
+         </a>
+      </td>
+   </ng-container>
+
+   <!-- excluir Column -->
+   <ng-container matColumnDef="excluir">
+      <th mat-header-cell *matHeaderCellDef> Excluir </th>
+      <td mat-cell *matCellDef="let item_venda">
+         <button mat-raised-button color="warn" title="Excluir" (click)="excluirItem(item_venda._id)">
+            <mat-icon>delete_forever</mat-icon>
+         </button>
+      </td>
+   </ng-container>
+
+   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
