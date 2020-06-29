@@ -39,11 +39,13 @@ controller.listar = async (req, res) => {
             // em segundo nível
             { path: 'produto', populate: 'fornecedor'}
          )
+         /*
          .populate(
             // path: campo a ser populado
             // select: lista de campos a serem exibidos, separados por espaço
             { path: 'venda', select: 'num_venda data_venda'}
          )
+         */
          res.send(lista) // O status HTTP 200 (OK) é implícito
       }
       catch(erro) {

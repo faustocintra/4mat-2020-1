@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ItemVendaService } from '../item-venda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,8 +13,10 @@ export class ItemVendaListComponent implements OnInit {
 
   itensVenda : any = []  // Vetor vazio
 
+  @Input() venda : string;
+
   // Quais colunas serão exibidas na tabela e qual a ordem de exibição
-  displayedColumns: any = ['venda', 'produto', 'quantidade', 'preco_unitario',
+  displayedColumns: any = ['venda', 'produto', 'fornecedor', 'quantidade', 'preco_unitario',
     'desconto', 'acrescimo', 'preco_total', 'editar', 'excluir']
   
   constructor(

@@ -1,4 +1,5 @@
-import { ClienteService } from './../../cliente/cliente.service';
+import { ProdutoService } from './../../produto/produto.service';
+import { VendaService } from './../../venda/venda.service';
 import { ItemVendaService } from './../item-venda.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -16,15 +17,17 @@ export class ItemVendaFormComponent implements OnInit {
 
   title: string = 'Novo item de venda'
 
-  itemVenda: any = {} // Objeto vazio
+  itemVenda: any = { desconto: 0, acrescimo: 0 } 
 
   // Entidades relacionadas
-  clientes: any = [] // Vetor vazio
+  vendas: any = [] // Vetor vazio
+  produtos: any = []
 
   constructor(
     private snackBar: MatSnackBar,
     private itemVendaSrv: ItemVendaService,
-    private clienteSrv: ClienteService,
+    private vendaSrv: VendaService,
+    private produtoSrv: ProdutoService,
     private router: Router,
     private actRoute: ActivatedRoute,
     private dialog: MatDialog
@@ -51,7 +54,8 @@ export class ItemVendaFormComponent implements OnInit {
 
     // Preenchendo entidades relacionadas
     try {
-      this.clientes = await this.clienteSrv.listar()
+      this.vendas = await this.vendaSrv.listar()
+      this.produtos = await this.produtoSrv.listar()
     }
     catch (erro) {
       this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
@@ -104,6 +108,5 @@ export class ItemVendaFormComponent implements OnInit {
     }
 
   }
-
-
+ 
 }

@@ -61,6 +61,7 @@ export class VendaFormComponent implements OnInit {
       // this.venda com esses dados
       try {
         this.venda = await this.vendaSrv.obterUm(params['id'])
+        this.title = 'Atualizando venda'
       }
       catch(erro) {
         this.snackBar.open(erro.message, 'Que pena!', {duration: 5000})

@@ -50,3 +50,10 @@
    </mat-toolbar>
 
 </form>
+<!-- Só exibe os itens de venda se já existir a venda (ou seja,
+   já existir o _id da venda -->
+<ng-container *ngIf="venda._id">
+   <hr>
+
+   <app-item-venda-list [venda]="venda._id"></app-item-venda-list>
+</ng-container>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mongoose = require('mongoose')
 
 const esquema = mongoose.Schema({

@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 // mongoose está sendo passado como parâmetro para mongoose-sequence
 const mongooseSeq = require('mongoose-sequence')(mongoose);
 
+// @ts-ignore
 const esquema = mongoose.Schema({
    data_venda: {
       type: Date, // Date armezana data e hora
@@ -26,6 +27,7 @@ const esquema = mongoose.Schema({
       index: { unique: true } // Número da venda não pode se repetir
    },
    cliente: {
+      // @ts-ignore
       type: mongoose.ObjectId,
       ref: 'Cliente',
       required: true
