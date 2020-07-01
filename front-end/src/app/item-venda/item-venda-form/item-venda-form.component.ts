@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDlgComponent } from 'src/app/ui/confirm-dlg/confirm-dlg.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-item-venda-form',
@@ -16,6 +17,8 @@ import { ConfirmDlgComponent } from 'src/app/ui/confirm-dlg/confirm-dlg.componen
 export class ItemVendaFormComponent implements OnInit {
 
   title: string = 'Novo item de venda'
+
+  vendaDisabled : boolean = false
 
   itemVenda: any = { desconto: 0, acrescimo: 0 } 
 
@@ -28,7 +31,8 @@ export class ItemVendaFormComponent implements OnInit {
     private itemVendaSrv: ItemVendaService,
     private vendaSrv: VendaService,
     private produtoSrv: ProdutoService,
-    private router: Router,
+    //private router: Router,
+    private location: Location,
     private actRoute: ActivatedRoute,
     private dialog: MatDialog
   ) { }
@@ -50,6 +54,15 @@ export class ItemVendaFormComponent implements OnInit {
       catch (erro) {
         this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
       }
+    }
+
+    // Se existir um parâmetro chamado :venda
+    if(params['venda']) {
+      // Iniciar o item de venda já com uma venda selecionada
+      // O select da venda já virá com a venda correta selecionada
+      this.itemVenda.venda = params['venda']
+      // O select da venda passa a ser somente leitura
+      this.vendaDisabled = true
     }
 
     // Preenchendo entidades relacionadas
@@ -79,7 +92,8 @@ export class ItemVendaFormComponent implements OnInit {
         }
         this.snackBar.open(msg, 'Entendi', { duration: 5000 })
         // Retornar à página de listagem
-        this.router.navigate(['/item-venda'])
+        //this.router.navigate(['/item-venda'])
+        this.location.back()
       }
       catch (erro) {
         this.snackBar.open(erro.message, 'Que pena!', { duration: 5000 })
@@ -104,7 +118,8 @@ export class ItemVendaFormComponent implements OnInit {
     }
 
     if (result) {
-      this.router.navigate(['/item-venda']); // Retorna à listagem
+      //this.router.navigate(['/item-venda']); // Retorna à listagem
+      this.location.back()
     }
 
   }

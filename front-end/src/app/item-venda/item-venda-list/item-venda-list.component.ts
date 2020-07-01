@@ -13,21 +13,32 @@ export class ItemVendaListComponent implements OnInit {
 
   itensVenda : any = []  // Vetor vazio
 
-  @Input() venda : string;
+  @Input() venda : string = '';
 
   // Quais colunas serão exibidas na tabela e qual a ordem de exibição
   displayedColumns: any = ['venda', 'produto', 'fornecedor', 'quantidade', 'preco_unitario',
     'desconto', 'acrescimo', 'preco_total', 'editar', 'excluir']
   
   constructor(
-    private item_vendaSrv: ItemVendaService,
+    private itemVendaSrv: ItemVendaService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }
 
   async ngOnInit() {
-    this.itensVenda = await this.item_vendaSrv.listar()
-    console.log(this.itensVenda)
+    try {
+      if(this.venda != '') { // Foi passsado um parâmetro com o _id da venda
+        this.itensVenda = await this.itemVendaSrv.filtrarVenda(this.venda)
+      }
+      else {
+        this.itensVenda = await this.itemVendaSrv.listar()
+      }
+    }
+    catch(erro) {
+      this.snackBar.open('ERRO: ' + erro.message, 'Que pena!', {
+        duration: 3000
+      })
+    }
   }
   
   async excluirItem(id : string) {
@@ -42,7 +53,7 @@ export class ItemVendaListComponent implements OnInit {
     if(result) {
     
       try {
-        await this.item_vendaSrv.excluir(id)
+        await this.itemVendaSrv.excluir(id)
         // Chama o ngOnInit() novamente para atualizar os dados da tabela
         this.ngOnInit()
         this.snackBar.open('Item excluído com sucesso.', 'Entendi', {

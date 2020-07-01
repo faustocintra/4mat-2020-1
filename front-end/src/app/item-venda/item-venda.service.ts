@@ -38,8 +38,8 @@ export class ItemVendaService {
     return this.http.get(this.apiUri + '/' + id).toPromise()
   }
 
-  busca(atributo: string, valor : string) {
-    
+  filtrarVenda(vendaId: string) {
+    return this.http.get(this.apiUri + '/venda/' + vendaId).toPromise()
   }
 
 }

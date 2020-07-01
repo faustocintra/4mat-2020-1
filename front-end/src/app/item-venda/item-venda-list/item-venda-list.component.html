@@ -1,7 +1,7 @@
 <h1>Listagem de itens de venda</h1>
 
 <div class="new-item-button-container">
-   <a mat-raised-button color="accent" class="new-item-button" [routerLink]="['/item-venda/novo']">
+   <a mat-raised-button color="accent" class="new-item-button" [routerLink]="['/item-venda/novo', venda]">
       <mat-icon>add_box</mat-icon>
       Cadastrar novo item de venda
    </a>
@@ -80,7 +80,7 @@
    <ng-container matColumnDef="editar">
       <th mat-header-cell *matHeaderCellDef> Editar </th>
       <td mat-cell *matCellDef="let item_venda">
-         <a mat-raised-button color="accent" title="Editar" [routerLink]="['/item_venda', item_venda._id]">
+         <a mat-raised-button color="accent" title="Editar" [routerLink]="['/item-venda', item_venda._id]">
             <mat-icon>edit</mat-icon>
          </a>
       </td>

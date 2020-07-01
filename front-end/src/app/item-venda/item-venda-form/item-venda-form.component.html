@@ -3,7 +3,8 @@
 <form class="std-form" #f="ngForm" (ngSubmit)="salvar(f)">
 
    <mat-form-field>
-      <mat-select name="venda" required placeholder="Selecione a venda" [(ngModel)]="itemVenda.venda">
+      <mat-label>Venda</mat-label>
+      <mat-select name="venda" required placeholder="Selecione a venda" [(ngModel)]="itemVenda.venda" [disabled]="vendaDisabled">
          <mat-option *ngFor="let venda of vendas" [value]="venda._id">
             Venda nº {{ venda.num_venda }} - Cliente: {{ venda.cliente.nome }} -
                Data venda: {{ venda.data_venda | date:'dd/MM/yyyy hh:mm:ss'}}
@@ -12,6 +13,7 @@
    </mat-form-field>
 
    <mat-form-field>
+      <mat-label>Produto</mat-label>
       <mat-select name="produto" required placeholder="Selecione o produto" [(ngModel)]="itemVenda.produto">
          <mat-option *ngFor="let produto of produtos" [value]="produto._id">
             {{ produto.descricao }} - {{ produto.preco_venda | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}

@@ -11,7 +11,7 @@ controller.novo = async (req, res) => {
 
       // chamar o método movimentarEstoque() do controller do produto
    }
-   catch(erro) {
+   catch (erro) {
       // HTTP status 500: Internal Server Error
       console.log(erro)
       res.status(500).send(erro)
@@ -19,13 +19,13 @@ controller.novo = async (req, res) => {
 }
 
 controller.listar = async (req, res) => {
-   
+
    // Se houver query string, desvia para busca personalizada
-   if(Object.keys(req.query).length > 0) {
+   if (Object.keys(req.query).length > 0) {
       busca(req, res)
    }
    else {
-   
+
       try {
          // find() sem parâmetros: retorna todos
          // É necessário ter um populate() para cada campo relacionado
@@ -37,8 +37,9 @@ controller.listar = async (req, res) => {
             // path: campo a ser populado
             // populate: campo da entidade relacionada que será populado
             // em segundo nível
-            { path: 'produto', populate: 'fornecedor'}
+            { path: 'produto', populate: 'fornecedor' }
          )
+         .populate('venda')
          /*
          .populate(
             // path: campo a ser populado
@@ -48,18 +49,38 @@ controller.listar = async (req, res) => {
          */
          res.send(lista) // O status HTTP 200 (OK) é implícito
       }
-      catch(erro) {
+      catch (erro) {
          console.log(erro)
          res.status(500).send(erro)
       }
    }
 }
 
+/* filtrarVenda() é uma cópia da parte else do listar(), com um filtro
+   no find() para buscar apenas os itens de venda correspondentes a uma
+   venda que é passada como parâmetro */
+controller.filtrarVenda = async (req, res) => {
+
+   try {
+      const vendaId = req.params.id
+      const lista = await ItemVenda.find({venda: vendaId})
+         .populate(  { path: 'produto', populate: 'fornecedor' })
+         .populate('venda')
+      
+      res.send(lista) // O status HTTP 200 (OK) é implícito
+   }
+   catch (erro) {
+      console.log(erro)
+      res.status(500).send(erro)
+   }
+
+}
+
 controller.obterUm = async (req, res) => {
    try {
       const id = req.params.id
       const obj = await ItemVenda.findById(id)
-      if(obj) { // obj foi encontrado
+      if (obj) { // obj foi encontrado
          res.send(obj) // HTTP 200
       }
       else {
@@ -67,7 +88,7 @@ controller.obterUm = async (req, res) => {
          res.status(404).end()
       }
    }
-   catch(erro) {
+   catch (erro) {
       console.log(erro)
       res.status(500).send(erro)
    }
@@ -77,7 +98,7 @@ controller.atualizar = async (req, res) => {
    try {
       const id = req.body._id
       const obj = await ItemVenda.findByIdAndUpdate(id, req.body)
-      if(obj) { // obj foi encontrado e atualizado 
+      if (obj) { // obj foi encontrado e atualizado 
          // HTTP 204: No content
          res.status(204).end()
       }
@@ -85,7 +106,7 @@ controller.atualizar = async (req, res) => {
          res.status(404).end()
       }
    }
-   catch(erro) {
+   catch (erro) {
       console.log(erro)
       res.status(500).send(erro)
    }
@@ -95,35 +116,35 @@ controller.excluir = async (req, res) => {
    try {
       const id = req.body._id
       const obj = await ItemVenda.findByIdAndDelete(id)
-      if(obj) {
+      if (obj) {
          res.status(204).end()
       }
       else {
          res.status(404).end()
       }
    }
-   catch(erro) {
+   catch (erro) {
       console.log(erro)
       res.status(500).send(erro)
    }
 }
 
-async function busca (req, res) {
-   
+async function busca(req, res) {
+
    let criterio = {}
    let atrib = Object.keys(req.query)[0]
    let valor = Object.values(req.query)[0]
-   
+
    // /i no final da expressão regular significa que a
    // busca será case insensitive
    criterio[atrib] = { $regex: valor, $options: 'i' }
    console.log(criterio)
-   
-   try{
+
+   try {
       let lista = await ItemVenda.find(criterio)
       res.send(lista)
    }
-   catch(erro) {
+   catch (erro) {
       console.log(erro)
       res.status(500).send(erro)
    }
