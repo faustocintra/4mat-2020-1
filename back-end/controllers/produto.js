@@ -2,7 +2,7 @@ const Produto = require('../models/Produto')
 
 const controller = {} // Objeto vazio
 
-controller.novo = async (req, res) => {
+controller.novo = async function (req, res) {
    try {
       await Produto.create(req.body)
       // HTTP Status 201: Created
@@ -15,7 +15,7 @@ controller.novo = async (req, res) => {
    }
 }
 
-controller.listar = async (req, res) => {
+controller.listar = async function (req, res) {
    
    if(Object.keys(req.query).length > 0) { // Se houver query string
       busca(req, res)
@@ -27,7 +27,7 @@ controller.listar = async (req, res) => {
          const lista = await Produto.find().populate('fornecedor')
          res.send(lista) // HTTP 200 implícito
       }
-      catch {
+      catch (erro) {
          console.log(erro)
          res.status(500).send(erro)
       }
@@ -35,44 +35,63 @@ controller.listar = async (req, res) => {
 
 }
 
-controller.obterUm = async (req, res) => {
-
+controller.obterUmInterno = async function (id) {
    try {
-      const id = req.params.id
       const obj = await Produto.findById(id)
-      if (obj) { // obj foi encontrado
-         res.send(obj) // HTTP 200 implícito
-      }
-      else {
-         // HTTP 404: Not found
-         res.status(404).end()
-      }
+      return { status: 200, result: obj }
    }
    catch (erro) {
       console.log(erro)
-      res.status(500).send(erro)
+      return { status: 500, result: erro }
    }
 }
 
-controller.atualizar = async (req, res) => {
+controller.obterUm = async function (req, res) {
+
+   const id = req.params.id
+   let retorno = await controller.obterUmInterno(id)
+
+   if(retorno.status == 200) {
+      if(retorno.result) res.send(retorno.result) // HTTP 200 implícito
+      else res.status(404).end() // HTTP 404
+   }
+   else {
+      res.status(500).send(retorno.result)
+   }
+   
+}
+
+// atualizarInterno(): para uso interno do back-end sem necessidade de 
+// realizar uma chamada HTTP
+controller.atualizarInterno = async function (id, body) {
    try {
-      const id = req.body._id
-      const obj = await Produto.findByIdAndUpdate(id, req.body)
+      const obj = await Produto.findByIdAndUpdate(id, body)
       if (obj) { // obj encontrado e atualizado
          // HTTP 204: No content
-         res.status(204).end()
+         return { status: 204, result: undefined }
       }
       else {
-         res.status(404).end()
+         return { status: 404, result: undefined }
       }
    }
    catch (erro) {
       console.log(erro)
-      res.status(500).send(erro)
+      return { status: 500, result: erro }
    }
 }
 
-controller.excluir = async (req, res) => {
+controller.atualizar = async function (req, res) {
+   const id = req.body._id
+   const retorno = await controller.atualizarInterno(id, req.body)
+   if (retorno.status == 500) {
+      res.status(500).send(retorno.result)
+   }
+   else {
+      res.status(retorno.status).end()
+   }
+}
+
+controller.excluir = async function (req, res) {
    try {
       const id = req.body._id
       const obj = await Produto.findByIdAndDelete(id)
@@ -109,12 +128,6 @@ async function busca(req, res) {
       console.log(erro)
       res.status(500).send(erro)
    }
-}
-
-controller.movimentarEstoque = function (produto_id, quantidade) {
-   // 1) Busca do produto pelo Id (obterUm)
-   // 2) Alteração na quantidade (quantidadeProd - quantVendida)
-   // 3) Salva o produto
 }
 
 module.exports = controller
